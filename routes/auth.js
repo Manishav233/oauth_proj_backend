@@ -2,36 +2,9 @@ const router = require("express").Router();
 const passport = require("passport");
 
 // const CLIENT_URL = "https://oauth20.netlify.app/";
-const CLIENT_URL = "http://localhost:3000";
+const CLIENT_URL = "http://localhost:3000/";
 
-router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
-
-router.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile'] }));
-
-router.get('/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
-
-router.get(
-    "/google/callback",
-    passport.authenticate("google", {
-      successRedirect: CLIENT_URL,
-      failureRedirect: "/login/failed",
-    })
-  );
-  
-  router.get("/login/failed", (req, res) => {
-    res.status(401).json({
-      success: false,
-      message: "Oops, Something went wrong",
-    });
-  });
-  
-  router.get("/login/success", (req, res) => {
+router.get("/login/success", (req, res) => {
     if (req.user) {
       res.status(200).json({
         success: true,
@@ -42,9 +15,35 @@ router.get(
     }
   });
   
+  router.get("/login/failed", (req, res) => {
+    res.status(401).json({
+      success: false,
+      message: "Oops, Something went wrong",
+    });
+  });
+  
   router.get("/logout", (req, res) => {
     req.logout();
     res.redirect(CLIENT_URL);
   });
- 
-  module.exports = router;
+
+router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
+
+// router.get('/auth/google',
+//   passport.authenticate('google', { scope: ['profile'] }));
+
+// router.get('/auth/google/callback', 
+//   passport.authenticate('google', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     // Successful authentication, redirect home.
+//     res.redirect('/');
+//   });
+
+router.get(
+    "/google/callback",
+    passport.authenticate("google", {
+      successRedirect: CLIENT_URL,
+      failureRedirect: "/login/failed",
+    })
+  );
+   module.exports = router;

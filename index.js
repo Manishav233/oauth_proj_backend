@@ -1,10 +1,10 @@
-const express=require("express");
-const passport = require('passport');
-const cookieSession=require('cookie-session');
+const express = require("express");
+const passport = require("passport");
+const cookieSession = require("cookie-session");
 const cors = require("cors");
 const passportSetup = require("./passport");  //importing passport.js file
 const authRoute = require("./routes/auth");
-var session = require('express-session')
+// var session = require('express-session')
 
 const app=express();
 
@@ -27,7 +27,7 @@ credentials:true,
 app.use("/auth",authRoute)
 
 app.listen("5000",()=>{
-console.log("Server is running")})
+console.log("Server is running")});
 
 
 
